@@ -59,6 +59,7 @@ date range.
 | `author_activity` | Author activity |
 | `review_health` | Review health |
 | `repo_trends` | Repo trends |
+| `contributor_concentration` | Contributor concentration |
 | `cycle_time` | Cycle time |
 | `deployment_frequency` | Deployment frequency |
 | `lead_time` | Lead time for changes |

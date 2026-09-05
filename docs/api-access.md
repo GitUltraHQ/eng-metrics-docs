@@ -24,6 +24,7 @@ range, plus optional scoping (see below).
 | Author activity | Per-author commits, lines added/removed, files changed, churn ratio, and active-days/week (a consistency-of-contribution signal) -- plus PR counts and average commits per PR. |
 | Review health | PR/merge counts, cycle time broken into pickup (open → first review) and review (first review → merge) stages with p50/p90 percentiles, per-reviewer load, and a review-load-balance (Gini coefficient) score. |
 | Repo trends | Weekly commit/PR volume and churn ratio, per repo. |
+| Contributor concentration | Per-repo commit-volume concentration (Gini coefficient + top-contributor share) -- same anonymized shape as review load balance above, applied to commits. A cheap "which repo might warrant a closer look" signal, not a per-person ranking. |
 | Cycle time | The pickup/review/total percentile breakdown as its own endpoint, for dashboards that only need that slice. |
 | Deployment frequency | Weekly deployment counts per repo (every git tag counts by default; scope down to a real deploy-tagging convention with a tag-pattern filter). |
 | Lead time for changes | p50/p90/avg hours from a commit to its nearest later tag. |
