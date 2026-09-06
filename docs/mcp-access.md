@@ -63,6 +63,8 @@ date range.
 | `recency_skew` | Recency skew |
 | `team_repo_activity_mismatch` | Team-to-repo activity mismatch |
 | `contributor_transition_impact` | Contributor departure/reassignment impact |
+| `ticket_lead_time` | Ticket-to-first-commit lead time |
+| `ticket_scope_mismatch` | Ticket scope mismatch |
 | `cycle_time` | Cycle time |
 | `deployment_frequency` | Deployment frequency |
 | `lead_time` | Lead time for changes |

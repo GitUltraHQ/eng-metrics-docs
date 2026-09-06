@@ -28,6 +28,8 @@ range, plus optional scoping (see below).
 | Recency skew | Per-repo decaying-ownership signal: total historical commits/contributors vs. how many of those contributors are still active in the last 90 days (`window_days` in the response). 0 means everyone historical is still active; approaching 1 means most have gone quiet. Same cheap-trigger family as contributor concentration. |
 | Team-to-repo activity mismatch | Per-team, per-repo coverage-gap signal: for each configured team, discovers its presumed-core repo(s) the same way `team` scoping does, then reports the gap between roster size and how many roster members are actually active there (`lookback_days` in the response). **Scoped differently from every other endpoint** -- see "Scoping" below. |
 | Contributor departure/reassignment impact | For each real team-membership change you've recorded (a separate, optional team-events log -- see "Team events" below), checks whether that person stopped contributing to a repo they were actually active on before leaving. **The one endpoint that returns a named individual** (their email) rather than an anonymized aggregate -- deliberately, since it's about a real personnel event. **Scoped differently from every other endpoint** -- see "Scoping" below. |
+| Ticket-to-first-commit lead time | Hours from a ticket's creation to the earliest commit (any repo) whose message referenced that ticket's key -- a best-effort regex match on the commit message, not a Jira-verified link. Requires the allocation-tracking flow (same one Investment Allocation uses). `linked_count`/`total_tickets` shows what fraction of tickets in the period were actually referenced in a commit message at all. **Not scoped by `repo`/`org`/`team`** -- see "Scoping" below. |
+| Ticket scope mismatch | Story points vs. actual lines changed for each ticket that has both, ranked by deviation from the overall median ratio -- there's no universal correct ratio, only whether a ticket is unusual relative to your own team's typical one. **Not scoped by `repo`/`org`/`team`** -- see "Scoping" below. |
 | Cycle time | The pickup/review/total percentile breakdown as its own endpoint, for dashboards that only need that slice. |
 | Deployment frequency | Weekly deployment counts per repo (every git tag counts by default; scope down to a real deploy-tagging convention with a tag-pattern filter). |
 | Lead time for changes | p50/p90/avg hours from a commit to its nearest later tag. |
@@ -72,6 +74,10 @@ rows* to one team afterward, not to change what gets scanned.
 **Contributor departure/reassignment impact accepts no scoping params
 at all** -- it evaluates each recorded team-membership change against
 that specific person's own commit history directly.
+
+**Ticket-to-first-commit lead time and ticket scope mismatch also
+accept no scoping params at all**, same reasoning as investment
+allocation -- ticket data has no repo relationship.
 
 ## Team events
 
