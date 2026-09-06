@@ -27,6 +27,7 @@ range, plus optional scoping (see below).
 | Contributor concentration | Per-repo commit-volume concentration (Gini coefficient + top-contributor share) -- same anonymized shape as review load balance above, applied to commits. A cheap "which repo might warrant a closer look" signal, not a per-person ranking. |
 | Recency skew | Per-repo decaying-ownership signal: total historical commits/contributors vs. how many of those contributors are still active in the last 90 days (`window_days` in the response). 0 means everyone historical is still active; approaching 1 means most have gone quiet. Same cheap-trigger family as contributor concentration. |
 | Team-to-repo activity mismatch | Per-team, per-repo coverage-gap signal: for each configured team, discovers its presumed-core repo(s) the same way `team` scoping does, then reports the gap between roster size and how many roster members are actually active there (`lookback_days` in the response). **Scoped differently from every other endpoint** -- see "Scoping" below. |
+| Contributor departure/reassignment impact | For each real team-membership change you've recorded (a separate, optional team-events log -- see "Team events" below), checks whether that person stopped contributing to a repo they were actually active on before leaving. **The one endpoint that returns a named individual** (their email) rather than an anonymized aggregate -- deliberately, since it's about a real personnel event. **Scoped differently from every other endpoint** -- see "Scoping" below. |
 | Cycle time | The pickup/review/total percentile breakdown as its own endpoint, for dashboards that only need that slice. |
 | Deployment frequency | Weekly deployment counts per repo (every git tag counts by default; scope down to a real deploy-tagging convention with a tag-pattern filter). |
 | Lead time for changes | p50/p90/avg hours from a commit to its nearest later tag. |
@@ -62,11 +63,24 @@ Every endpoint accepts:
 tracking is purely Jira-side data), so there's nothing to scope by; it
 always returns one combined view across every tracked Jira project.
 
-**Team-to-repo activity mismatch is the other exception**, in the
+**Team-to-repo activity mismatch is another exception**, in the
 opposite direction -- it accepts no `repo`/`org` at all, and always
 scans your whole org to discover each configured team's own presumed-
 core repos. `team` is still accepted, but only to narrow the *returned
 rows* to one team afterward, not to change what gets scanned.
+
+**Contributor departure/reassignment impact accepts no scoping params
+at all** -- it evaluates each recorded team-membership change against
+that specific person's own commit history directly.
+
+## Team events
+
+A separate, optional log from the team roster above: `email,team,
+action,date` rows (`action` is `added` or `removed`), recording real
+team-membership changes over time -- your roster (`team` scoping) is a
+current-snapshot, this is history. Only used by the contributor
+departure/reassignment endpoint. Configuring one doesn't require the
+other.
 
 ## Example
 
