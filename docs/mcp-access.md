@@ -61,6 +61,7 @@ date range.
 | `repo_trends` | Repo trends |
 | `contributor_concentration` | Contributor concentration |
 | `recency_skew` | Recency skew |
+| `team_repo_activity_mismatch` | Team-to-repo activity mismatch |
 | `cycle_time` | Cycle time |
 | `deployment_frequency` | Deployment frequency |
 | `lead_time` | Lead time for changes |

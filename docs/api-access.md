@@ -26,6 +26,7 @@ range, plus optional scoping (see below).
 | Repo trends | Weekly commit/PR volume and churn ratio, per repo. |
 | Contributor concentration | Per-repo commit-volume concentration (Gini coefficient + top-contributor share) -- same anonymized shape as review load balance above, applied to commits. A cheap "which repo might warrant a closer look" signal, not a per-person ranking. |
 | Recency skew | Per-repo decaying-ownership signal: total historical commits/contributors vs. how many of those contributors are still active in the last 90 days (`window_days` in the response). 0 means everyone historical is still active; approaching 1 means most have gone quiet. Same cheap-trigger family as contributor concentration. |
+| Team-to-repo activity mismatch | Per-team, per-repo coverage-gap signal: for each configured team, discovers its presumed-core repo(s) the same way `team` scoping does, then reports the gap between roster size and how many roster members are actually active there (`lookback_days` in the response). **Scoped differently from every other endpoint** -- see "Scoping" below. |
 | Cycle time | The pickup/review/total percentile breakdown as its own endpoint, for dashboards that only need that slice. |
 | Deployment frequency | Weekly deployment counts per repo (every git tag counts by default; scope down to a real deploy-tagging convention with a tag-pattern filter). |
 | Lead time for changes | p50/p90/avg hours from a commit to its nearest later tag. |
@@ -56,10 +57,16 @@ Every endpoint accepts:
 
 `repo`/`org` and `team` are mutually exclusive.
 
-**Investment allocation is the one exception** -- it accepts none of
+**Investment allocation is one exception** -- it accepts none of
 `repo`/`org`/`team`. Jira tickets have no repo relationship (allocation
 tracking is purely Jira-side data), so there's nothing to scope by; it
 always returns one combined view across every tracked Jira project.
+
+**Team-to-repo activity mismatch is the other exception**, in the
+opposite direction -- it accepts no `repo`/`org` at all, and always
+scans your whole org to discover each configured team's own presumed-
+core repos. `team` is still accepted, but only to narrow the *returned
+rows* to one team afterward, not to change what gets scanned.
 
 ## Example
 
