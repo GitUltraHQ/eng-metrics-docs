@@ -1,5 +1,17 @@
 # Getting Started
 
+!!! tip "Using Claude Code?"
+    `eng-metrics-suite` (and `eng-metrics-suite-pro`) ship a
+    `gitultra-setup` skill that automates everything on this page
+    through [Generating Reports](generating-reports.md) -- clone the
+    repo, open it in Claude Code, and ask it to set up GitUltra. It
+    detects your tier, asks only for what it can't infer (org name,
+    provider tokens, which optional integrations to enable), and
+    verifies the install with a real generated report before calling
+    it done. The steps below are what it's automating, and remain the
+    reference if you'd rather do it by hand or the skill doesn't
+    behave as expected.
+
 Clone [eng-metrics-suite](https://github.com/GitUltraHQ/eng-metrics-suite),
 then:
 
