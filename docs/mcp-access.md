@@ -65,6 +65,7 @@ date range.
 | `contributor_transition_impact` | Contributor departure/reassignment impact |
 | `ticket_lead_time` | Ticket-to-first-commit lead time |
 | `ticket_scope_mismatch` | Ticket scope mismatch |
+| `planning_signature` | Planning signature |
 | `cycle_time` | Cycle time |
 | `deployment_frequency` | Deployment frequency |
 | `lead_time` | Lead time for changes |
