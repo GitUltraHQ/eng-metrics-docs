@@ -4,7 +4,7 @@ Source for the [eng-metrics-suite](https://github.com/GitUltraHQ/eng-metrics-sui
 documentation site, built with [MkDocs](https://www.mkdocs.org/) +
 [Material](https://squidfunk.github.io/mkdocs-material/).
 
-**Live site: [gitultrahq.github.io/eng-metrics-docs](https://gitultrahq.github.io/eng-metrics-docs/)**
+**Live site: [docs.gitultra.com](https://docs.gitultra.com/)**
 
 Deploys automatically to GitHub Pages on every push to `master`.
 
