@@ -1,6 +1,6 @@
 site_name: eng-metrics-suite
 site_description: Self-hosted engineering metrics pipeline -- docs
-site_url: https://gitultrahq.github.io/eng-metrics-docs/
+site_url: https://docs.gitultra.com/
 repo_url: https://github.com/GitUltraHQ/eng-metrics-suite
 repo_name: GitUltraHQ/eng-metrics-suite
 
