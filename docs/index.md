@@ -15,6 +15,13 @@ images (`git-processor`, `pr-processor`, `eng-reports`, and optionally
 [ghcr.io/gitultrahq](https://github.com/GitUltraHQ?tab=packages).
 Free to use; see [LICENSE](https://github.com/GitUltraHQ/eng-metrics-suite/blob/master/LICENSE).
 
+!!! tip "Want API access or AI agent access?"
+    Everything on this site works with the free, self-hosted tier. For
+    [API Access](api-access.md) and [AI Agent Access](mcp-access.md)
+    (query your metrics from Claude Desktop or Claude Code) on the
+    **Team**/**Enterprise** plans, sign up or apply for beta access at
+    [gitultra.com](https://gitultra.com).
+
 ## Requirements
 
 - Docker + Docker Compose
