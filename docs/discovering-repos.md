@@ -46,6 +46,11 @@ docker compose run --rm --entrypoint python3 git-processor discover_repos.py <or
     something slightly different — hidden org-wide, not just inactive —
     so treat `exclude_archived` there as an approximation.
 
+Renamed a repo upstream? Re-running this is all you need to do — see
+[Repo Renames & Duplicate Repos](repo-renames.md) for how that's handled
+and how to check for any repos duplicated by a rename that happened
+before you upgraded to a version with this fix.
+
 Next: [Jira Integration](jira-integration.md) if you want change failure
 rate/MTTR or an investment allocation report too, or straight to
 [Running Workers](running-workers.md) to actually import what you just queued.

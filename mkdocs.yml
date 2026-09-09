@@ -29,6 +29,7 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Discovering Repos: discovering-repos.md
+  - Repo Renames & Duplicate Repos: repo-renames.md
   - Jira Integration (Optional): jira-integration.md
   - Running Workers: running-workers.md
   - Generating Reports: generating-reports.md
