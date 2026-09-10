@@ -41,6 +41,7 @@ range, plus optional scoping (see below).
 | Author distribution trend | Weekly p50/p90 (never a per-author number) of commit count, churn ratio, and active days -- the anonymized, ranking-safe alternative to a per-author leaderboard. |
 | Reviewer distribution trend | Weekly p50/p90 of reviews-per-reviewer, same anonymization reasoning as above. |
 | Commits-after-open distribution trend | Weekly p50/p90 of avg commits pushed after a PR was opened, per PR. |
+| Executive report | On-track/at-risk/off-track status, weekly trend, and a fixed suggestion per configured KPI (8 defaults covering deployment frequency, lead time, change failure rate, MTTR, bug effort share, feature delivery, high-priority bug share, and overdue ratio -- 4 more available opt-in), plus a budget/resource snapshot reusing Investment Allocation's own data. **Requires the Enterprise plan specifically** -- see "Getting access" below. **Not scoped by `repo`/`org`/`team` at all** -- see "Scoping" below. |
 
 Deployment frequency, lead time, change failure rate, and MTTR are the
 four canonical DORA metrics -- all four are available here.
@@ -79,6 +80,10 @@ that specific person's own commit history directly.
 **Ticket-to-first-commit lead time and ticket scope mismatch also
 accept no scoping params at all**, same reasoning as investment
 allocation -- ticket data has no repo relationship.
+
+**Executive report accepts no scoping params either** -- it's
+deliberately one org-wide view, not a drill-down tool, same as
+investment allocation above.
 
 ## Team events
 
@@ -170,6 +175,11 @@ beta access there if you're interested. Once you have access, we issue
 you a **license key** (`GITULTRA_LICENSE_KEY`, valid 90 days, renewed on
 request) -- set that alongside the API key you generate yourself (see
 "Auth" above) and you're running.
+
+**The executive report endpoint is Enterprise-only** -- every other
+endpoint on this page works on the Team plan. If your license doesn't
+cover it, that one endpoint returns a `403` (everything else keeps
+working); ask us for a reissue if you upgrade.
 
 Want to query these same metrics conversationally, from Claude Desktop
 or Claude Code, instead of calling the API yourself? See

@@ -76,10 +76,12 @@ date range.
 | `author_distribution_trend` | Author distribution trend |
 | `reviewer_distribution_trend` | Reviewer distribution trend |
 | `commits_after_open_distribution_trend` | Commits-after-open distribution trend |
+| `executive_report` | Executive report (**Enterprise plan only** -- see [API Access](api-access.md)) |
 
-`investment_allocation` is the one tool with no `repo`/`org`/`team`
-scoping at all, same as its API endpoint -- Jira work items have no
-repo relationship.
+`investment_allocation` and `executive_report` are the two tools with
+no `repo`/`org`/`team` scoping at all, same as their API endpoints --
+Jira work items have no repo relationship for the former, and the
+latter is deliberately one org-wide view rather than a drill-down tool.
 
 ## Connecting a client
 
@@ -112,7 +114,10 @@ Add to your MCP server config:
 
 Same as [API Access](api-access.md) -- available on **Team** and
 **Enterprise** plans, see [gitultra.com](https://gitultra.com) for
-plan details or to apply for beta access. Full setup details, auth
+plan details or to apply for beta access. `executive_report` is
+Enterprise-only, same as its underlying API endpoint -- your license
+just needs to cover `"executive-report"`, no separate `gitultra-mcp`
+grant needed for that one tool specifically. Full setup details, auth
 model, and troubleshooting live in
 [gitultra-mcp](https://github.com/GitUltraHQ/gitultra-mcp)'s own
 README.
