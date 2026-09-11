@@ -27,6 +27,8 @@ Free to use; see [LICENSE](https://github.com/GitUltraHQ/eng-metrics-suite/blob/
 ## Requirements
 
 - Docker + Docker Compose
+- Any Linux or macOS host, Intel/AMD64 or ARM64 (including Apple
+  Silicon) -- every published image is multi-arch
 
 ## The pieces
 
