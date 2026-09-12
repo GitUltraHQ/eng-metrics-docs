@@ -76,6 +76,20 @@ Once `issue-processor` has imported some incidents, `report.py`'s PDF
 and the `/v1/change-failure-rate`/`/v1/mttr` API endpoints return real
 numbers instead of "not configured."
 
+**Untracking a project**: `remove_jira_project.py` permanently deletes
+the mapping and its incidents:
+
+```
+docker compose run --rm --entrypoint python3 issue-processor remove_jira_project.py <project_key> \
+    --repo-identity-key "github.com/owner/repo" \
+    --actor "you@company.com" --reason "decommissioned" --yes
+```
+
+Same preview-first/`--yes`/`--allow-readd` contract as
+[`remove_repo.py`](discovering-repos.md#untracking-a-repo) -- once
+removed, `discover_jira_projects.py` won't silently re-add this
+project/repo pairing until you deliberately lift the guard.
+
 ## Investment allocation
 
 A separate flow with no repo relationship at all -- Jira tickets aren't
@@ -128,6 +142,19 @@ docker compose run --rm eng-reports allocation_report.py --output /out/allocatio
 
 or query `/v1/investment-allocation` if you're on the Team/Enterprise
 API plan (see [API Access](api-access.md)).
+
+**Untracking a project**: `remove_allocation_project.py` permanently
+deletes it and its work items:
+
+```
+docker compose run --rm --entrypoint python3 issue-processor remove_allocation_project.py <project_key> \
+    --actor "you@company.com" --reason "decommissioned" --yes
+```
+
+Same preview-first/`--yes`/`--allow-readd` contract as
+[`remove_repo.py`](discovering-repos.md#untracking-a-repo) -- no
+`--repo-identity-key` needed here, since this flow has no repo
+relationship at all.
 
 ## Further reading
 
