@@ -58,3 +58,31 @@ they find nothing queued to do — that's expected, not a crash;
 `restart: unless-stopped` just means they check again periodically
 rather than sitting in a busy loop. Nothing happens until you queue
 some repos — continue to [Discovering Repos](discovering-repos.md).
+
+## Using an external database
+
+Running a very large number of repos? The bundled `postgres:16`
+container is fine to start with, but a single Docker container on the
+same host has real ceilings on storage, backup, and monitoring.
+
+Set `DATABASE_URL` in `.env` to point every service at your own
+managed Postgres instead — RDS, Cloud SQL, Azure Database for
+PostgreSQL, or any other standard Postgres 12+ instance:
+
+```
+DATABASE_URL=postgres://user:pass@host:port/dbname?sslmode=require
+```
+
+Nothing here needs anything beyond standard Postgres (no custom
+extensions), so any managed offering should work. Most providers
+require `?sslmode=require` (or their own equivalent) in the connection
+string — check your provider's docs if the connection is refused.
+Leave `DATABASE_URL` unset to keep using the bundled container, which
+remains the default.
+
+If you've pointed at an external database, the bundled `postgres`
+container is no longer used for anything — you can leave it running
+unused (harmless, just a little idle disk/CPU) or remove it entirely
+from your own copy of `docker-compose.yml`: delete the `postgres:`
+service block and the `pgdata:` entry under the top-level `volumes:`
+section.
