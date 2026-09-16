@@ -48,3 +48,26 @@ markdown_extensions:
       alternate_style: true
   - toc:
       permalink: true
+
+# Google Analytics 4, gated by Material's built-in cookie-consent banner
+# below -- gtag.js only loads after a visitor clicks "Accept" (or has
+# already done so on a past visit); declining or ignoring the banner
+# means no analytics data is sent for that visit. See
+# https://squidfunk.github.io/mkdocs-material/setup/setting-up-site-analytics/
+# and https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-blog/#consent
+# for how Material wires this together -- no custom JS needed here,
+# unlike gitultra-site's hand-built equivalent.
+extra:
+  analytics:
+    provider: google
+    property: G-2C8NVN73HS
+  consent:
+    title: Cookie consent
+    description: >-
+      We use Google Analytics to understand how visitors use this
+      documentation site -- pages viewed, referring site, and general
+      usage patterns -- so we can improve it. This only runs if you
+      accept below; declining means no analytics data is collected for
+      your visit. See GitUltra's
+      <a href="https://gitultra.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+      for more detail.
