@@ -48,6 +48,51 @@ If the same person shows up as multiple rows in the author table, or
 lands in "Unmapped" despite being in your team-map CSV, see
 [Author Identity Consistency](author-identity.md).
 
+### Optional columns: manager reporting and pseudonymization
+
+The same CSV accepts three additional optional columns, on top of the
+required `email,team`:
+
+```csv
+email,team,role,receives_report,reportable
+alice@example.com,Platform,manager,true,true
+bob@example.com,Platform,contributor,false,true
+carol@example.com,Platform,contributor,false,false
+```
+
+- **`role`** (`contributor` or `manager`, default `contributor`) —
+  marks who manages a team. A person can appear on more than one row
+  to manage more than one team.
+- **`receives_report`** (`true`/`false`, default `false`) — whether
+  this person is automatically emailed their team's report; see
+  [Emailing team reports to managers](scheduling.md#emailing-team-reports-to-managers)
+  below. Separate from `role` since a manager might exist in your
+  roster without wanting the automated email.
+- **`reportable`** (`true`/`false`, default `true`) — set to `false`
+  to pseudonymize a specific contributor. Instead of their real
+  name/email, reports (and any future MCP/API access to per-person
+  data) show a stable, auto-assigned alias like "Contributor A" —
+  the same alias every time, for that person, across every report run.
+  Team-level totals are unaffected; only the individual breakout is
+  aliased.
+
+Any row can mix and match — a legacy 2-column CSV with just
+`email,team` keeps working exactly as before; these three columns are
+purely additive.
+
+**What pseudonymization does and doesn't protect against**: this
+reduces identifiability in the report itself — a manager reading the
+PDF sees "Contributor A," not a name. It does not achieve legal
+anonymity. A consistent pseudonym is generally considered reversible/
+re-identifiable under GDPR and works-council standards, especially
+given the behavioral cues (PTO patterns, repo ownership, commit
+timing) a manager already has independent of this feature. If you
+need this for works-council or GDPR compliance reasons, treat this as
+one control among several, not a complete answer — your own
+compliance posture (works-council agreement, opt-out process, legal
+review) is what actually matters, this flag just gives you the lever
+to configure it.
+
 ## Investment allocation report
 
 A second, independent script in the same `eng-reports` image: shows
