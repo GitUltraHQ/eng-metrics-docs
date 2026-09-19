@@ -143,6 +143,52 @@ Every request needs `Authorization: Bearer <key>` using the API key
 account/key request step for the API key -- only the license key comes
 from us.
 
+## Manager-scoped endpoints
+
+The endpoints above are org-wide, gated by your one shared API key.
+These four are different: they're scoped to a single manager's own
+team(s), and gated by that specific manager proving control of their
+own email address first -- see "Manager verification flow" below.
+
+| Endpoint | What it returns |
+|---|---|
+| Manager contributor summary | Per-contributor commit/PR activity for one team you manage, for one period. Pass `person` (an email) to narrow to one team member. |
+| Manager period comparison | The same team's current period vs. the immediately-preceding period of equal length, side by side -- commit activity and cycle time for both. There's no separate "period B" input; the comparison window is always computed for you. |
+| Manager team trend | Weekly commit/PR volume per repo, pre-scoped to one team you manage -- the manager-authenticated equivalent of Repo Trends above. |
+| Manager email-team-report | Triggers a fresh, on-demand PDF of one team's report, emailed to *your own* on-file address -- never any other address, even if the request tried to say otherwise. Defaults to the last 30 days if no dates are given. |
+
+These require the **`team` roster CSV's `role`/`managed_teams`
+configuration** (see [Generating Reports](generating-reports.md)) --
+querying a team you don't manage returns a `403`, not another team's
+data, or "no data."
+
+### Two-header auth model
+
+Every manager-scoped endpoint needs **both** headers on every request,
+not just the API key:
+
+- `Authorization: Bearer <API_KEY>` -- the same shared install-wide
+  key every other endpoint on this page requires.
+- `X-Manager-Token: <token>` -- a second, per-manager credential,
+  obtained via the verification flow below. The API key alone is
+  **not** sufficient for these four endpoints.
+
+### Manager verification flow
+
+1. `POST /v1/manager/request-code` with `{"email": "<manager's email>"}`
+   -- always returns `{"status": "sent"}`, whether or not that email is
+   actually a manager on file (this is deliberate: it stops someone
+   from mapping out your manager roster by trying different emails and
+   comparing responses). If it *is* a real manager, a 6-digit code is
+   emailed to that address via your own configured SMTP (`SMTP_HOST`
+   etc. -- see [Scheduling](scheduling.md#emailing-team-reports-to-managers)
+   for the same SMTP variables), expiring in 10 minutes. Five wrong
+   guesses locks that code out; request a fresh one to recover.
+2. `POST /v1/manager/verify-code` with `{"email": ..., "code": "123456"}`
+   -- returns `{"token": "...", "expires_at": "..."}` on success. Use
+   that token as `X-Manager-Token` on every call to the four endpoints
+   above for the next 24 hours; after that, verify again.
+
 ### Generating an API key
 
 Any sufficiently random string works -- a UUID, a password manager's

@@ -93,6 +93,36 @@ compliance posture (works-council agreement, opt-out process, legal
 review) is what actually matters, this flag just gives you the lever
 to configure it.
 
+### rewrite-ratio pseudonymization
+
+[rewrite-ratio](https://github.com/GitUltraHQ/rewrite-ratio) (a
+separate paid-tier CLI tool) supports the same pseudonymization as
+above via two flags:
+
+```
+python3 rewrite_ratio.py --repo <path> --author <email> \
+    --start 2026-01-01 --end 2026-04-01 \
+    --pseudonymize --dsn postgres://user:pass@host/db
+```
+
+- `--dsn` (or a `DATABASE_URL` environment variable) -- a read-only
+  connection to your shared metrics database, used only to look up
+  existing aliases.
+- `--pseudonymize` -- requires a license covering **both**
+  `rewrite-ratio` and `team-reporting`.
+
+Unlike the report/API/MCP surfaces above, **rewrite-ratio never
+creates a new alias** -- it only reflects ones eng-reports or eng-api
+already assigned. This keeps the alias table's contents controlled
+entirely by the report/API pipeline, not by whichever tool happens to
+run first. If `--pseudonymize` is set and a scoped contributor doesn't
+have an alias yet (nobody's run a report covering them), that person's
+real email is shown as-is, with a logged warning -- run a report or
+query covering them first if you need them aliased everywhere.
+
+Same "reduces identifiability, not legal anonymity" caveat as above
+applies here too.
+
 ## Investment allocation report
 
 A second, independent script in the same `eng-reports` image: shows

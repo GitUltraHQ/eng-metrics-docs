@@ -83,6 +83,43 @@ no `repo`/`org`/`team` scoping at all, same as their API endpoints --
 Jira work items have no repo relationship for the former, and the
 latter is deliberately one org-wide view rather than a drill-down tool.
 
+### Manager tools (require email verification)
+
+These six work differently from every tool above: instead of your
+shared `ENG_API_KEY` alone, they're scoped to a single manager's own
+team(s), gated by that manager proving control of their own email
+address first.
+
+| Tool | What it does |
+|---|---|
+| `verify_manager_email` | Step 1: emails a one-time code to a manager's on-file address. |
+| `submit_manager_code` | Step 2: exchanges that code for a session token, valid 24 hours. |
+| `get_contributor_summary` | Per-contributor activity for one of your managed teams. |
+| `compare_periods` | Current vs. immediately-preceding period, side by side, for one team. |
+| `get_team_trend` | Weekly commit/PR trend for one team. |
+| `email_my_team_report` | Emails a fresh PDF of one team's report to your own on-file address. |
+
+#### Manager verification flow
+
+1. Ask your agent to call `verify_manager_email` with your email.
+   Check the inbox tied to your manager row for a 6-digit code
+   (expires in 10 minutes).
+2. Have it call `submit_manager_code` with that code. On success, this
+   returns a session token.
+3. **Hold onto that token for the rest of the conversation** and pass
+   it as `token` on every subsequent call to
+   `get_contributor_summary`/`compare_periods`/`get_team_trend`/
+   `email_my_team_report` -- `gitultra-mcp` keeps no memory between
+   tool calls (see the "thin layer on top of the API" note above), so
+   your agent client is what carries the token forward, not the
+   server. After 24 hours the token expires; start again from step 1.
+
+Non-reportable contributors (an admin-configured privacy setting --
+see [Generating Reports](generating-reports.md#optional-columns-manager-reporting-and-pseudonymization))
+appear as a stable alias like "Contributor A" in these tools' output,
+never their real name/email. That reduces identifiability, it doesn't
+achieve legal anonymity -- see that same page for the full caveat.
+
 ## Connecting a client
 
 ### Claude Code
