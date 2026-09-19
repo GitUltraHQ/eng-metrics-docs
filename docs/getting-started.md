@@ -49,6 +49,23 @@ isn't UID 1000 (check with `id -u`), add `--user "$(id -u):$(id -g)"` to
 the `docker compose run` commands in [Generating
 Reports](generating-reports.md) instead.
 
+**On `eng-metrics-suite-pro` (Team/Enterprise)**: if you plan to use
+the admin-only live CSV-upload endpoints for `team_map.csv`/
+`org_roles.csv` (see [API Access](api-access.md#updating-the-roster-without-a-restart)),
+also create a writable subdirectory alongside the read-only one above:
+
+```
+sudo mkdir -p /var/lib/eng-metrics-suite/writable
+sudo chown "$(id -u):$(id -g)" /var/lib/eng-metrics-suite/writable
+```
+
+`eng-api` mounts this one specific subdirectory read-write (everything
+else under `/var/lib/eng-metrics-suite` stays read-only to it) --
+point `ENG_API_TEAM_MAP_PATH`/`ENG_API_ORG_ROLES_PATH` at a file inside
+it if you want either file updatable without a restart. Not needed if
+you're happy hand-editing and restarting, same as any other config
+file here.
+
 ## What `docker compose up` actually starts
 
 Postgres, plus the `git-processor` and `pr-processor` workers (and

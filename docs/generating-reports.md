@@ -93,6 +93,28 @@ compliance posture (works-council agreement, opt-out process, legal
 review) is what actually matters, this flag just gives you the lever
 to configure it.
 
+### `org_roles.csv`: org-level roles (Admin / Executive / Director)
+
+A separate, optional CSV, independent of the team roster above --
+`email,role`, `role` one of `admin`/`executive`/`director`:
+
+```csv
+email,role
+admin@example.com,admin
+cfo@example.com,executive
+vp-eng@example.com,director
+```
+
+One row per email (unlike the team roster, none of these three roles
+are team-scoped, so there's nothing to enumerate per team). A person
+can have both a team-roster row (manager of specific teams) and an
+`org_roles.csv` row at the same time -- both grants apply. See [API
+Access](api-access.md#org-level-roles-admin-executive-director) and
+[AI Agent Access](mcp-access.md#org-role-tools-require-email-verification)
+for what each role can reach and how to verify as one; set
+`ORG_ROLES_PATH` (`eng-api`) to this file's path to turn the feature
+on -- leaving it unset changes nothing about existing behavior.
+
 ### rewrite-ratio pseudonymization
 
 [rewrite-ratio](https://github.com/GitUltraHQ/rewrite-ratio) (a

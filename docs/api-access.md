@@ -189,6 +189,69 @@ not just the API key:
    that token as `X-Manager-Token` on every call to the four endpoints
    above for the next 24 hours; after that, verify again.
 
+## Org-level roles (Admin / Executive / Director)
+
+Above team level, three org-wide roles cover the cases the manager
+flow above doesn't: an executive who wants the big picture with no
+team drill-down, a director who wants team-level detail across teams
+they don't personally manage, and an admin who needs full access
+(including individual-contributor data) for troubleshooting -- an
+audited, per-person alternative to sharing the flat API key. Verified
+through the **exact same two-step email flow** as managers above
+(`POST /v1/manager/request-code` / `POST /v1/manager/verify-code`,
+same `X-Manager-Token` header) -- a person just needs a row in
+`org_roles.csv` instead of (or in addition to) a manager row in the
+team roster CSV. See [Generating Reports](generating-reports.md) for
+`org_roles.csv`'s format.
+
+The three roles are **not** a simple more/less hierarchy -- each has a
+different shape of access:
+
+| Access | Admin | Executive | Director |
+|---|:---:|:---:|:---:|
+| Org-level reports/metrics | Yes | Yes | Yes |
+| Team-level reports/metrics (any team) | Yes | No | Yes |
+| Individual-contributor metrics | Yes | No | No |
+| Executive Report | Yes | Yes | No |
+
+| Endpoint | Roles | What it returns |
+|---|---|---|
+| Org team trend | Admin, Executive, Director | Same as Manager team trend, but org-wide when `team` is omitted (Admin/Executive/Director), or for any single team when `team` is given (Admin/Director only -- Executive gets a `403`). |
+| Admin contributor summary | Admin only | Same as Manager contributor summary, for any team, not just ones you manage. |
+| Admin period comparison | Admin only | Same as Manager period comparison, for any team. |
+| Admin email-team-report | Admin only | Same as Manager email-team-report, for any team -- still only ever emailed to *your own* on-file address. |
+
+`GET /v1/executive-report` (see above) additionally requires an Admin
+or Executive role once `ORG_ROLES_PATH` is configured -- on an install
+that hasn't set that up, it works exactly as before (API key alone).
+
+### Updating the roster without a restart
+
+Two admin-only endpoints let an Admin update `team_map.csv`/
+`org_roles.csv` live, no restart required -- useful for routine roster
+changes on an otherwise long-running install:
+
+- `POST /v1/admin/team-map`
+- `POST /v1/admin/org-roles`
+
+Both take a real file upload (`multipart/form-data`, field name
+`file`), gated by `Authorization: Bearer <API_KEY>` **and**
+`X-Manager-Token` from an Admin-role token. Each upload **replaces the
+target file's entire contents** (not a patch -- include every row you
+want kept) and is validated in full before anything is written: a
+malformed CSV, a non-UTF-8 file, or (for `org_roles.csv` specifically)
+an upload that would leave zero `admin` rows all return a `4xx` and
+change nothing on disk or in memory. A valid upload takes effect
+immediately, for the very next request.
+
+This requires the target file to live somewhere the `eng-api`
+container can actually write to -- see
+[Getting Started](getting-started.md) (or `eng-metrics-suite-pro`'s
+`docker-compose.yml`) for the writable-subdirectory mount these two
+endpoints need. Hand-editing either CSV directly on disk still works
+exactly as before and still requires a restart to take effect -- these
+two endpoints are an additional option, not a replacement.
+
 ### Generating an API key
 
 Any sufficiently random string works -- a UUID, a password manager's

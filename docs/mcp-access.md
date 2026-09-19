@@ -120,6 +120,34 @@ appear as a stable alias like "Contributor A" in these tools' output,
 never their real name/email. That reduces identifiability, it doesn't
 achieve legal anonymity -- see that same page for the full caveat.
 
+### Org role tools (require email verification)
+
+Above team level, three org-wide roles -- Admin, Executive, Director --
+verify through the **exact same `verify_manager_email`/
+`submit_manager_code` flow** above (a person needs a row in
+`org_roles.csv` instead of, or in addition to, a manager row -- see
+[Generating Reports](generating-reports.md#org_rolescsv-org-level-roles-admin-executive-director)).
+No separate verification tools. The three roles aren't a strict
+hierarchy -- see [API Access](api-access.md#org-level-roles-admin-executive-director)
+for the full permission matrix.
+
+| Tool | Roles | What it does |
+|---|---|---|
+| `get_org_team_trend` | Admin, Executive, Director | Weekly commit/PR trend, org-wide when `team` is omitted, or for one arbitrary team when given (Admin/Director only). |
+| `get_admin_contributor_summary` | Admin | Per-contributor activity for any team, not just ones you manage. |
+| `get_admin_period_comparison` | Admin | Current vs. preceding period for any team. |
+| `email_admin_team_report` | Admin | Emails a fresh PDF for any team to your own on-file address. |
+| `upload_team_map_csv` | Admin | Replaces `team_map.csv` entirely and reloads it live -- no restart. |
+| `upload_org_roles_csv` | Admin | Replaces `org_roles.csv` entirely and reloads it live -- always rejected if it would leave zero `admin` rows. |
+
+Both upload tools take `csv_content` as a plain string (the full new
+file contents) and require the underlying `eng-api` install to have a
+writable path configured for the target file -- see [Getting
+Started](getting-started.md). A malformed upload returns a readable
+error and changes nothing; the tool doesn't distinguish "eng-api
+rejected the file" from any other error shape, so check the message
+for specifics.
+
 ## Connecting a client
 
 ### Claude Code
@@ -154,7 +182,10 @@ Same as [API Access](api-access.md) -- available on **Team** and
 plan details or to apply for beta access. `executive_report` is
 Enterprise-only, same as its underlying API endpoint -- your license
 just needs to cover `"executive-report"`, no separate `gitultra-mcp`
-grant needed for that one tool specifically. Full setup details, auth
-model, and troubleshooting live in
+grant needed for that one tool specifically. The org role tools need
+the same license coverage the manager tools already need -- no
+additional grant, whichever plan already gets you manager reporting
+also gets you org roles. Full setup details, auth model, and
+troubleshooting live in
 [gitultra-mcp](https://github.com/GitUltraHQ/gitultra-mcp)'s own
 README.
