@@ -170,14 +170,28 @@ claude mcp add --transport http gitultra http://localhost:8100/mcp \
 
 ### Claude Desktop
 
-Add to your MCP server config:
+Current Desktop builds manage connectors through **Settings → Connectors
+→ Add custom connector**, not a config file:
+
+1. URL: `https://your-instance:8100/mcp` -- Desktop requires a real
+   `https://` URL; a plain `http://` address (including `localhost`)
+   is rejected outright, even for a same-machine service. If
+   `gitultra-mcp` isn't already behind HTTPS the way the rest of your
+   instance is, put it behind the same reverse proxy/TLS termination
+   you're using for `eng-api`.
+2. Choose **"No sign-in"**, not "Sign in now" -- this server uses a
+   static Bearer header, not OAuth. Picking "No sign-in" reveals a
+   custom headers field.
+3. Add header `Authorization: Bearer <your ENG_API_KEY value>`.
+
+Some older Desktop builds instead read a config file directly:
 
 ```json
 {
   "mcpServers": {
     "gitultra": {
       "type": "http",
-      "url": "http://localhost:8100/mcp",
+      "url": "https://your-instance:8100/mcp",
       "headers": {
         "Authorization": "Bearer <your ENG_API_KEY value>"
       }
@@ -185,6 +199,10 @@ Add to your MCP server config:
   }
 }
 ```
+
+If your build supports both, the Connectors UI takes precedence --
+use it first and only fall back to editing the config file if your
+version of Desktop doesn't have a Connectors UI at all.
 
 ## Getting access
 
