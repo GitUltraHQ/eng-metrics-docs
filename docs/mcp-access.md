@@ -83,6 +83,17 @@ no `repo`/`org`/`team` scoping at all, same as their API endpoints --
 Jira work items have no repo relationship for the former, and the
 latter is deliberately one org-wide view rather than a drill-down tool.
 
+**`repo_trends`, `deployment_frequency`, `lead_time`,
+`change_failure_rate`, and `mttr` return a rendered chart image instead
+of JSON when called from Claude Desktop.** Every other client --
+including Claude Code, which has no general way to render an inline
+image -- gets exactly the same JSON these tools have always returned.
+For `repo_trends`, `deployment_frequency`, `change_failure_rate`, and
+`mttr`, the chart shows org-wide **p50/p90 trend lines across whatever
+repos your `repo`/`org`/`team` scoping matched, not a line per repo**
+-- the underlying JSON still has full per-repo detail, this is a
+readability choice for the chart specifically.
+
 ### Manager tools (require email verification)
 
 These six work differently from every tool above: instead of your
