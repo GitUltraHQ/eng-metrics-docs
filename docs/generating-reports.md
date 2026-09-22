@@ -93,6 +93,21 @@ compliance posture (works-council agreement, opt-out process, legal
 review) is what actually matters, this flag just gives you the lever
 to configure it.
 
+**PR/review coverage (GitHub)**: pseudonymization above always covers
+your commit history. For GitHub, it also extends to the PR-author and
+reviewer breakdowns (the "By Author (pull requests)" and "By Reviewer"
+tables) -- but only for a contributor who has authored a commit inside
+at least one pull request your install has imported. This includes
+historical PRs, not just ones imported after you set `reportable=false`
+-- a one-time backfill resolves existing data the next time that
+repo syncs. If a contributor has never had a commit go through a
+tracked pull request (e.g. a repo that's mostly direct-to-master, or a
+reviewer who's never opened a PR of their own), their GitHub username
+still shows unaliased in these two tables specifically -- a disclosed
+gap, not a bug, and independent of whether their commit-level activity
+elsewhere in the same report is aliased. GitLab, Bitbucket, and Azure
+DevOps PR/review coverage is not yet supported.
+
 ### `org_roles.csv`: org-level roles (Admin / Executive / Director)
 
 A separate, optional CSV, independent of the team roster above --
