@@ -108,6 +108,14 @@ gap, not a bug, and independent of whether their commit-level activity
 elsewhere in the same report is aliased. GitLab, Bitbucket, and Azure
 DevOps PR/review coverage is not yet supported.
 
+The same GitHub coverage also improves *display* for every
+non-pseudonymized contributor: the "By Author (pull requests)" and "By
+Reviewer" tables show that person's real git author name (e.g. "Josh
+Sooter") instead of their bare GitHub username, whenever it's known --
+independent of whether you've configured a `team_map` at all. Falls
+back to the bare username under the same coverage boundary as above
+(no commit through a tracked pull request yet).
+
 ### `org_roles.csv`: org-level roles (Admin / Executive / Director)
 
 A separate, optional CSV, independent of the team roster above --
