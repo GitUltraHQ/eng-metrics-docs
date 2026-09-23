@@ -15,6 +15,20 @@
 Clone [eng-metrics-suite](https://github.com/GitUltraHQ/eng-metrics-suite),
 then:
 
+## Team / Enterprise tiers
+
+Clone [eng-metrics-suite-pro](https://github.com/GitUltraHQ/eng-metrics-suite-pro)
+instead of `eng-metrics-suite` if you're on the Team or Enterprise
+tier -- same setup, plus the paid add-ons (`eng-api`, `gitultra-mcp`)
+already wired into the compose file. The repo itself is public and
+free to clone, but running the paid add-ons needs a signed
+`GITULTRA_LICENSE_KEY` -- email **support@gitultra.com** to get one.
+See that repo's [QUICKSTART.md](https://github.com/GitUltraHQ/eng-metrics-suite-pro/blob/master/QUICKSTART.md)
+once you have a key.
+
+The steps below are the same for both -- continue here first regardless
+of tier.
+
 ```
 cp .env.example .env
 # edit .env: set a POSTGRES_PASSWORD, and the token(s) for whichever
