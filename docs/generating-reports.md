@@ -93,28 +93,46 @@ compliance posture (works-council agreement, opt-out process, legal
 review) is what actually matters, this flag just gives you the lever
 to configure it.
 
-**PR/review coverage (GitHub)**: pseudonymization above always covers
-your commit history. For GitHub, it also extends to the PR-author and
-reviewer breakdowns (the "By Author (pull requests)" and "By Reviewer"
-tables) -- but only for a contributor who has authored a commit inside
-at least one pull request your install has imported. This includes
-historical PRs, not just ones imported after you set `reportable=false`
--- a one-time backfill resolves existing data the next time that
-repo syncs. If a contributor has never had a commit go through a
-tracked pull request (e.g. a repo that's mostly direct-to-master, or a
-reviewer who's never opened a PR of their own), their GitHub username
-still shows unaliased in these two tables specifically -- a disclosed
-gap, not a bug, and independent of whether their commit-level activity
-elsewhere in the same report is aliased. GitLab, Bitbucket, and Azure
-DevOps PR/review coverage is not yet supported.
+**PR/review coverage (GitHub, Bitbucket Cloud)**: pseudonymization
+above always covers your commit history. For GitHub and Bitbucket
+Cloud, it also extends to the PR-author and reviewer breakdowns (the
+"By Author (pull requests)" and "By Reviewer" tables) -- but only for
+a contributor who has authored a commit inside at least one pull
+request your install has imported. No new token scope is needed for
+either provider -- your existing import credentials already have
+everything this requires.
 
-The same GitHub coverage also improves *display* for every
-non-pseudonymized contributor: the "By Author (pull requests)" and "By
-Reviewer" tables show that person's real git author name (e.g. "Josh
-Sooter") instead of their bare GitHub username, whenever it's known --
-independent of whether you've configured a `team_map` at all. Falls
-back to the bare username under the same coverage boundary as above
-(no commit through a tracked pull request yet).
+For **GitHub**, this includes historical PRs, not just ones imported
+after you set `reportable=false` -- a one-time backfill resolves
+existing data the next time that repo syncs.
+
+For **Bitbucket Cloud**, the boundary is narrower: only PRs and reviews
+imported *after* you upgrade to a version with this feature get
+covered. Bitbucket has no equivalent of GitHub's per-person account
+lookup, so there's no cheap way to backfill identity on a PR/review
+your install already imported before upgrading -- those rows keep
+showing the bare Bitbucket display name, unaliased, permanently. This
+is a disclosed limitation of the platform, not something a future
+release fixes by trying harder.
+
+For either provider, if a contributor has never had a commit go
+through a tracked pull request (e.g. a repo that's mostly
+direct-to-master, or a reviewer who's never opened a PR of their own),
+their vendor username still shows unaliased in these two tables
+specifically -- a disclosed gap, not a bug, and independent of whether
+their commit-level activity elsewhere in the same report is aliased.
+GitLab, Bitbucket Server/Data Center, and Azure DevOps PR/review
+coverage is not yet supported.
+
+The same GitHub/Bitbucket Cloud coverage also improves *display* for
+every non-pseudonymized contributor: the "By Author (pull requests)"
+and "By Reviewer" tables show that person's real git author name (e.g.
+"Josh Sooter") instead of their bare vendor username, whenever it's
+known -- independent of whether you've configured a `team_map` at all.
+Falls back to the bare username under the same coverage boundary as
+above (no commit through a tracked pull request yet, or -- for
+Bitbucket Cloud specifically -- a PR/review imported before you
+upgraded).
 
 ### `org_roles.csv`: org-level roles (Admin / Executive / Director)
 
