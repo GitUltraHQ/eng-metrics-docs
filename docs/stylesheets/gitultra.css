@@ -57,3 +57,12 @@
 .md-header__button.md-logo img {
   height: 1.6rem;
 }
+
+/* Indent pages under their sidebar section so section titles don't read
+   as pages. Desktop only -- below 76.25em Material's nav is a drill-down
+   drawer with no inline sections. */
+@media screen and (min-width: 76.25em) {
+  .md-nav--primary .md-nav__item--section > .md-nav {
+    margin-left: 0.8rem;
+  }
+}
