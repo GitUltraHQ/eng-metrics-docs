@@ -20,7 +20,7 @@ Free to use; see [LICENSE](https://github.com/GitUltraHQ/eng-metrics-suite/blob/
     [API Access](api-access.md) and [AI Agent Access](mcp-access.md)
     (query your metrics from Claude Desktop or Claude Code) on the
     **Team**/**Enterprise** plans, or the
-    [Executive Report](generating-reports.md#executive-report-enterprise-plan)
+    [Executive Report](executive-report.md)
     (Enterprise plan only), sign up or apply for beta access at
     [gitultra.com](https://gitultra.com).
 

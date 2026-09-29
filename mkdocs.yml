@@ -27,19 +27,27 @@ theme:
 
 nav:
   - Home: index.md
-  - Getting Started: getting-started.md
-  - Discovering Repos: discovering-repos.md
-  - Repo Renames & Duplicate Repos: repo-renames.md
-  - Jira Integration (Optional): jira-integration.md
-  - Running Workers: running-workers.md
-  - Generating Reports: generating-reports.md
-  - API Access (Team / Enterprise): api-access.md
-  - AI Agent Access (Team / Enterprise): mcp-access.md
-  - Author Identity Consistency: author-identity.md
-  - Scheduling Reports: scheduling.md
-  - Logs: logs.md
-  - Telemetry: telemetry.md
-  - Updating: updating.md
+  - Setup:
+      - Getting Started: getting-started.md
+      - Discovering Repos: discovering-repos.md
+      - Jira Integration (Optional): jira-integration.md
+      - Running Workers: running-workers.md
+  - Reports:
+      - Generating Reports: generating-reports.md
+      - Investment Allocation: investment-allocation.md
+      - Planning Quality Signals: planning-quality-signals.md
+      - Executive Report (Enterprise): executive-report.md
+      - Scheduling Reports: scheduling.md
+  - Team & Enterprise:
+      - API Access: api-access.md
+      - AI Agent Access: mcp-access.md
+  - Data Quality:
+      - Author Identity Consistency: author-identity.md
+      - Repo Renames & Duplicate Repos: repo-renames.md
+  - Operations:
+      - Updating: updating.md
+      - Logs: logs.md
+      - Telemetry: telemetry.md
 
 markdown_extensions:
   - admonition
