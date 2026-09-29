@@ -1,4 +1,4 @@
-site_name: eng-metrics-suite
+site_name: GitUltra Docs
 site_description: Self-hosted engineering metrics pipeline -- docs
 site_url: https://docs.gitultra.com/
 repo_url: https://github.com/GitUltraHQ/eng-metrics-suite
@@ -6,16 +6,23 @@ repo_name: GitUltraHQ/eng-metrics-suite
 
 theme:
   name: material
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+  font:
+    text: Nunito Sans
+    code: Roboto Mono
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -49,6 +56,12 @@ nav:
       - Logs: logs.md
       - Telemetry: telemetry.md
 
+extra_css:
+  - stylesheets/gitultra.css
+
+copyright: >-
+  &copy; 2026 <a href="https://gitultra.com" target="_blank" rel="noopener">GitUltra</a>
+
 markdown_extensions:
   - admonition
   - pymdownx.superfences
@@ -66,6 +79,14 @@ markdown_extensions:
 # for how Material wires this together -- no custom JS needed here,
 # unlike gitultra-site's hand-built equivalent.
 extra:
+  generator: false
+  social:
+    - icon: material/web
+      link: https://gitultra.com
+      name: gitultra.com
+    - icon: fontawesome/brands/github
+      link: https://github.com/GitUltraHQ
+      name: GitUltraHQ on GitHub
   analytics:
     provider: google
     property: G-2C8NVN73HS
