@@ -28,7 +28,12 @@ change failure rate, MTTR, bug effort share, feature delivery,
 high-priority bug share, and overdue ratio). Four more KPIs (cycle
 time, ticket-to-first-commit lead time, ticket scope mismatch, and
 planning signature) are available but off by default -- add a row to
-your own copy of the CSV to turn one on. Whichever KPIs aren't
+your own copy of the CSV to turn one on. To set your targets once for
+both the PDF and the API, put the CSV under `/var/lib/eng-metrics-suite`
+and set `KPI_TARGETS_PATH` in your `.env` to its in-container path
+(e.g. `/var/lib/eng-metrics-suite/kpi_targets.csv`), then restart
+`eng-api`; `--kpi-targets` still overrides it for a one-off run.
+Whichever KPIs aren't
 configurable on your instance (e.g. change failure rate without the
 Jira integration configured) show as "not available," never a
 fabricated number.
