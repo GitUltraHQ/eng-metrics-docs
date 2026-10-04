@@ -97,6 +97,19 @@ or acquisition. It never overwrites the old one. Add `--kpi "<name>"`
 to re-baseline only some KPIs (for example once Jira is connected),
 or `--quarter 2026-Q1` to pick the quarter.
 
+!!! note "After updating to suite v1.10.0"
+    High-Priority Bug Share, Overdue Ratio and Feature Delivery are now
+    measured as of the end of each period, so past periods no longer
+    shift as tickets close later. Their existing baselines are marked as
+    outdated in `manage.py status`. Re-baseline them once:
+
+    ```
+    docker compose exec eng-api python manage.py rebaseline --kpi "High-Priority Bug Share" --kpi "Overdue Ratio" --kpi "Feature Delivery" --reason "Calculation now measured as of period end"
+    ```
+
+The [QBR Report](qbr-report.md) reads this history to show each
+quarter in context.
+
 !!! warning "Back up your database"
     Target history, baselines and annotations can't be rebuilt from
     git or Jira the way everything else can. Include your Postgres
