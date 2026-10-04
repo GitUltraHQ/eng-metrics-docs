@@ -31,8 +31,9 @@ planning signature) are available but off by default -- add a row to
 your own copy of the CSV to turn one on. To set your targets once for
 both the PDF and the API, put the CSV under `/var/lib/eng-metrics-suite`
 and set `KPI_TARGETS_PATH` in your `.env` to its in-container path
-(e.g. `/var/lib/eng-metrics-suite/kpi_targets.csv`), then restart
-`eng-api`; `--kpi-targets` still overrides it for a one-off run.
+(e.g. `/var/lib/eng-metrics-suite/kpi_targets.csv`). `eng-api` picks
+up edits within a minute, no restart needed; `--kpi-targets` still
+overrides it for a one-off run.
 Whichever KPIs aren't
 configurable on your instance (e.g. change failure rate without the
 Jira integration configured) show as "not available," never a
@@ -45,5 +46,60 @@ view, not a drill-down tool. Also available via [API Access](api-access.md)
 (`GET /v1/executive-report`) and [AI Agent Access](mcp-access.md)
 (`executive_report` tool) if you'd rather pull it programmatically or
 ask an agent for it than regenerate a PDF.
+
+## Target history, baseline and annotations
+
+`eng-api` keeps a history of your targets and where you started, so
+results can always be read against the target that was in force at
+the time, not just today's:
+
+- **Target history.** Every change to your targets CSV is recorded
+  with when it was made and the previous value. History starts on the
+  day you upgrade to a version with this feature.
+- **Two optional CSV columns.** `expected` records what you believe a
+  KPI's value is today, before you see the measured one. `note` records
+  why a target was chosen. Existing 3-column files keep working.
+
+  ```
+  kpi,operator,target,expected,note
+  Lead Time for Changes,<=,48,36,Matches the platform team's SLA
+  Change Failure Rate,<=,0.10,,Board asked for under 10% after the March outage
+  ```
+
+- **Baseline.** On first run, each KPI's value over your last full
+  fiscal quarter is recorded as your starting point. Set
+  `FISCAL_YEAR_START_MONTH` in `.env` (1 to 12, default 1) if your
+  fiscal year doesn't start in January. A fiscal year is named for the
+  year it ends.
+- **Annotations.** An optional YAML file of dated notes about what
+  your organization changed. Point `ANNOTATIONS_PATH` in `.env` at it:
+
+  ```yaml
+  annotations:
+    - date: 2026-02-03
+      note: Moved to a weekly on-call rotation
+      by: Jane Smith        # optional
+  ```
+
+If an edit to either file is invalid, `eng-api` logs the problem and
+keeps using the last good version.
+
+Two commands help you manage this:
+
+```
+docker compose exec eng-api python manage.py status
+docker compose exec eng-api python manage.py rebaseline --reason "Reorganized into platform teams"
+```
+
+`status` shows each KPI's target, baseline and expected value.
+`rebaseline` records a new starting point, for example after a reorg
+or acquisition. It never overwrites the old one. Add `--kpi "<name>"`
+to re-baseline only some KPIs (for example once Jira is connected),
+or `--quarter 2026-Q1` to pick the quarter.
+
+!!! warning "Back up your database"
+    Target history, baselines and annotations can't be rebuilt from
+    git or Jira the way everything else can. Include your Postgres
+    database in your backups.
 
 Next: [Scheduling Reports](scheduling.md) to get this running automatically.
