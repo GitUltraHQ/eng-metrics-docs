@@ -66,8 +66,11 @@ the time, not just today's:
   Change Failure Rate,<=,0.10,,Board asked for under 10% after the March outage
   ```
 
-- **Baseline.** On first run, each KPI's value over your last full
-  fiscal quarter is recorded as your starting point. Set
+- **Baseline.** Once your first import has finished (every repo you
+  queued has been imported at least once), each KPI's value over your
+  last full fiscal quarter is recorded as your starting point. Until
+  then, `manage.py status` (below) shows "waiting for the first import
+  to finish". Set
   `FISCAL_YEAR_START_MONTH` in `.env` (1 to 12, default 1) if your
   fiscal year doesn't start in January. A fiscal year is named for the
   year it ends.
