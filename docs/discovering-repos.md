@@ -24,7 +24,7 @@ on the host:
 ```yaml
 exclude_archived: true            # skip repos the provider reports as archived
 exclude_inactive_days: 730        # skip repos with no push in this many days
-exclude_patterns:                 # skip repos whose "org/repo" name matches (regex, re.search)
+exclude_patterns:                 # skip repos whose name (not "org/repo") matches (regex, re.search)
   - "-bot$"
   - "^terraform-"
 ```
