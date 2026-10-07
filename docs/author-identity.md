@@ -84,9 +84,9 @@ docker compose run --rm -v /path/to/local/clone:/repo --entrypoint python3 \
   git-processor git_processor.py /repo --force-full-reimport
 ```
 
-(You need a local clone of the repo to bind-mount in — `git-processor`'s
-normal queue-worker mode clones and discards a scratch copy per repo, it
-doesn't keep one around for this.)
+(You need a local clone of the repo to bind-mount in. The queue worker
+keeps its own mirror of each repo, but there's no way yet to ask it for a
+full re-import, so this runs against your clone instead.)
 
 No extra setup needed for the bind mount itself — earlier versions of
 this image required a manual `git config --add safe.directory` step to
