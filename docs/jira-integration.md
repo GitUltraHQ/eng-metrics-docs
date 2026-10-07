@@ -156,6 +156,38 @@ Same preview-first/`--yes`/`--allow-readd` contract as
 `--repo-identity-key` needed here, since this flow has no repo
 relationship at all.
 
+## Changing your Jira settings
+
+`issue-processor` only fetches issues that changed since its last run.
+So if you change `JIRA_INCIDENT_ISSUE_TYPES`, `JIRA_ALLOCATION_ISSUE_TYPES`,
+`JIRA_CATEGORY_FIELD` or `JIRA_STORY_POINTS_FIELD`, the change only
+reaches issues updated after it. To apply it to everything you've
+already imported, restart `issue-processor` and then re-import.
+
+These settings apply to every project, so re-import all projects in the
+flow you changed:
+
+```
+docker compose up -d issue-processor
+docker compose run --rm --entrypoint python3 issue-processor reingest_jira_project.py --all --flow incident --yes
+```
+
+Use `--flow allocation` after changing the allocation issue types or
+either field, or leave `--flow` out to re-import both.
+
+If something changed in just one Jira project (for example, an issue
+type was removed from it), re-import only that project:
+
+```
+docker compose run --rm --entrypoint python3 issue-processor reingest_jira_project.py <project_key> --yes
+```
+
+Re-importing fetches every matching issue again and removes issues whose
+type is no longer in your settings, so dropping a type takes those
+issues out of your reports. Run it without `--yes` first to see which
+projects it will touch and how many issues it will remove. A project
+that's mid-import is skipped; run the command again once it finishes.
+
 ## Further reading
 
 See [issue-processor](https://github.com/GitUltraHQ/issue-processor)'s
