@@ -68,31 +68,71 @@ opt in or out.
     same resolved identities for everyone), commit it like any other
     file.
 
+## One file for your whole org (recommended)
+
+A `.mailmap` committed to a repo only covers that repo, so someone who
+works across 50 repos would need the same lines in all 50. Instead, keep
+one identity file for your whole org, in the same `.mailmap` format:
+
+```
+Jane Smith <jane@work.com> <jane.smith@gmail.com>
+Bob Brown <bob@work.com> <bob@personal.net>
+```
+
+Save it in `/var/lib/eng-metrics-suite` on the host (already mounted into
+`git-processor`) and point `MAILMAP_PATH` in `.env` at it:
+
+```
+MAILMAP_PATH=/var/lib/eng-metrics-suite/identities.mailmap
+```
+
+Then restart `git-processor` (`docker compose up -d git-processor`).
+Every repo's import applies the file from then on, alongside any
+`.mailmap` a repo already has committed. Where both map the same
+address, your org-wide file wins. If the path doesn't point to a
+readable file, `git-processor` refuses to start, so a typo doesn't go
+unnoticed.
+
 ## Reprocessing already-imported data
 
-Adding a `.mailmap` doesn't retroactively fix commits `git-processor`
-already imported, at least not on its own. A normal run only re-resolves
-the single most-recently-imported commit (`git ls-stats` re-fetches its
-own start point inclusively every time) — everything older than that
-stays as originally imported.
+A new or changed mapping only applies to commits imported after the
+change. Commits that were already imported keep the identity they had,
+so existing reports don't change until you re-import.
 
-Run `git_processor.py` with `--force-full-reimport` against the repo to
-fully re-resolve every commit's identity:
+To re-import, run `reingest_repo.py`. `git-processor` re-reads every
+commit from its own copy of each repo, so you don't need a local clone,
+and it updates names and emails on the commits it already has. Commit
+counts and other stats stay the same.
+
+After editing the org-wide file, re-import every repo:
+
+```
+docker compose run --rm --entrypoint python3 git-processor reingest_repo.py --all --yes
+```
+
+After changing one repo's committed `.mailmap`, re-import just that repo,
+using its identity key (e.g. `github.com/acme/api`):
+
+```
+docker compose run --rm --entrypoint python3 git-processor reingest_repo.py github.com/acme/api --yes
+```
+
+Run it without `--yes` first to see what it will touch. Repos that are
+mid-import are skipped; run the command again once they finish. Updated
+identities show up in reports once `git-processor` has worked through
+the queue.
+
+If you imported a repo by hand with `git_processor.py` instead of through
+discovery, `git-processor` has no copy of it, so re-import it from a
+local clone instead:
 
 ```
 docker compose run --rm -v /path/to/local/clone:/repo --entrypoint python3 \
   git-processor git_processor.py /repo --force-full-reimport
 ```
 
-(You need a local clone of the repo to bind-mount in. The queue worker
-keeps its own mirror of each repo, but there's no way yet to ask it for a
-full re-import, so this runs against your clone instead.)
-
-No extra setup needed for the bind mount itself — earlier versions of
-this image required a manual `git config --add safe.directory` step to
-work around a host/container UID-ownership check; that's now baked into
-the image itself as long as you bind-mount to `/repo` (the path shown
-above), so it works out of the box.
+No extra setup is needed for the bind mount, as long as you mount the
+clone at `/repo` as shown.
 
 Tags don't need this step — `git ls-tags` output is fully reconciled
 against the database on *every* normal run (not just full reimports),
