@@ -37,6 +37,35 @@ affordable even for large repos -- a fetch only pulls new objects. If a
 mirror ever gets corrupted, the worker logs a warning and automatically
 falls back to a fresh clone.
 
+## When something fails
+
+One bad response from a provider never stops a whole import:
+
+- **One PR can't be fetched** (for example, Bitbucket Cloud can't list
+  the commits of a merged PR whose branch was deleted). The PR is saved
+  with that part missing and the import carries on. pr-processor tries
+  that PR again on later syncs.
+- **The provider is down or rate limiting.** The worker retries, and if
+  the outage outlasts the retries, it tries the repo again later. An
+  outage never marks a repo `failed`.
+- **A repo or Jira project no longer exists** (or your token can't see
+  it). It's marked `failed` right away, with a message in its
+  `last_error` / `pr_last_error` saying what to check.
+- **Your credentials are rejected**, or `JIRA_BASE_URL` isn't a Jira
+  site. That worker pauses everything for that provider (other
+  providers keep going) and logs which setting to fix, every 15
+  minutes. Fix it in `.env` and run `docker compose up -d`; paused
+  repos pick up where they left off. See [Logs](logs.md#paused-imports).
+
+To retry a repo marked `failed` once you've fixed the cause:
+
+```
+docker compose run --rm --entrypoint python3 pr-processor reingest_repo_prs.py --failed --yes
+docker compose run --rm --entrypoint python3 issue-processor reingest_jira_project.py <project-key> --yes
+```
+
+Leave off `--yes` to see what would happen first.
+
 ## Scaling workers
 
 There's no worker-count setting — `git-processor` and `pr-processor` each

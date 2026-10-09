@@ -15,6 +15,19 @@ org/group/workspace, not a personal account — this discovers everything
 the org owns, not one user's repos. Queues each repo found — safe to
 re-run later to pick up new ones.
 
+!!! note "Bitbucket Cloud credentials"
+    Set `BITBUCKET_EMAIL` to your Atlassian account email (not your
+    Bitbucket username) and `BITBUCKET_API_TOKEN` to a Bitbucket
+    [API token](https://support.atlassian.com/bitbucket-cloud/docs/using-api-tokens/)
+    with read access to repositories and pull requests. That's all:
+    git-processor works out the git username on its own. Atlassian
+    removed app passwords in July 2026. If your `.env` still uses
+    `BITBUCKET_USERNAME` / `BITBUCKET_APP_PASSWORD`, it keeps working,
+    and the logs remind you to rename them.
+
+If the provider rejects your credentials, `discover_repos.py` stops
+with a message naming the settings to check.
+
 ## Filtering what gets queued
 
 To skip archived/inactive repos or ones matching a name pattern (e.g. bot
