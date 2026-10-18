@@ -64,7 +64,7 @@ proxy" philosophy as deployment frequency/lead time above).
    then seed the queue:
 
     ```
-    docker compose run --rm issue-processor python3 discover_jira_projects.py \
+    docker compose run --rm --entrypoint python3 issue-processor discover_jira_projects.py \
         --config /var/lib/eng-metrics-suite/jira_project_map.yaml
     ```
 
@@ -130,7 +130,7 @@ Version) to a deployment, so this doesn't even require
    it, then seed the queue:
 
     ```
-    docker compose run --rm issue-processor python3 discover_allocation_projects.py \
+    docker compose run --rm --entrypoint python3 issue-processor discover_allocation_projects.py \
         --config /var/lib/eng-metrics-suite/allocation_projects.yaml
     ```
 
