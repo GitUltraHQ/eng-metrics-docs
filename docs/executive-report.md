@@ -110,6 +110,22 @@ or `--quarter 2026-Q1` to pick the quarter.
     docker compose exec eng-api python manage.py rebaseline --kpi "High-Priority Bug Share" --kpi "Overdue Ratio" --kpi "Feature Delivery" --reason "Calculation now measured as of period end"
     ```
 
+!!! note "After updating to suite v1.14.0"
+    Deployment Frequency, Lead Time for Changes, Change Failure Rate and
+    MTTR now count only tags matching `ENG_API_TAG_PATTERN` when it's
+    set, the same as the API's deployment endpoints. Before, these four
+    KPIs counted every tag. Their existing baselines are marked as
+    outdated in `manage.py status`. If you're still onboarding, finalize
+    (below) covers it. Otherwise re-baseline them once:
+
+    ```
+    docker compose exec eng-api python manage.py rebaseline --kpi "Deployment Frequency" --kpi "Lead Time for Changes" --kpi "Change Failure Rate" --kpi MTTR --reason "Deployments now follow the tag pattern"
+    ```
+
+`rebaseline --finalize` ends onboarding: it re-records every KPI over
+your first baseline quarter from your corrected data. See the
+[Onboarding Report](onboarding-report.md).
+
 The [QBR Report](qbr-report.md) reads this history to show each
 quarter in context.
 
