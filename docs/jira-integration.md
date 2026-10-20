@@ -41,7 +41,8 @@ used as the password half of Basic auth (`JIRA_EMAIL:JIRA_API_TOKEN`).
 
 Linkage works via Jira's **Fix Version** field: an incident counts
 against a deployment if its Fix Version exactly matches that
-deployment's git tag name, scoped per repo. This requires your Jira
+deployment's git tag name, scoped per repo (see
+[DORA Metrics](dora-metrics.md) for which tags count as deployments). This requires your Jira
 project's Fix Versions to already agree with your git tag naming --
 there's no fuzzy matching or time-window fallback (same "no fabricated
 proxy" philosophy as deployment frequency/lead time above).

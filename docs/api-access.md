@@ -32,7 +32,7 @@ range, plus optional scoping (see below).
 | Ticket scope mismatch | Story points vs. actual lines changed for each ticket that has both, ranked by deviation from the overall median ratio -- there's no universal correct ratio, only whether a ticket is unusual relative to your own team's typical one. **Not scoped by `repo`/`org`/`team`** -- see "Scoping" below. |
 | Planning signature | Per-ticket composite of lead time, post-PR-open commit churn, and change size, each bucketed low/mid/high relative to your own tickets in the period -- only two combinations are named ("high-risk": fast + unreviewed + big; "well-planned": slow + iterated + small), everything else is unlabeled. Needs a linked commit *and* a linked pull request to be eligible, and at least 9 eligible tickets in the period for the buckets to mean anything. **Not scoped by `repo`/`org`/`team`** -- see "Scoping" below. |
 | Cycle time | The pickup/review/total percentile breakdown as its own endpoint, for dashboards that only need that slice. |
-| Deployment frequency | Weekly deployment counts per repo (every git tag counts by default; scope down to a real deploy-tagging convention with a tag-pattern filter). |
+| Deployment frequency | Weekly deployment counts per repo (every git tag counts by default; scope down to a real deploy-tagging convention with a tag-pattern filter, see [DORA Metrics](dora-metrics.md#choosing-which-tags-count)). |
 | Lead time for changes | p50/p90/avg hours from a commit to its nearest later tag. |
 | Change failure rate | Percentage of deployments (tags) linked to a Jira incident via that incident's Fix Version field, exact-matched to the tag name. Requires the optional [issue-processor](https://github.com/GitUltraHQ/issue-processor) Jira integration -- returns 0/`null` with `jira_configured_repo_count: 0` if it isn't set up, not a misleading 0%. |
 | Mean time to restore (MTTR) | p50/p90/avg hours from a linked incident's creation to its resolution. Same issue-processor dependency as change failure rate above; still-open incidents are excluded from the average but reported separately as `open_excluded`. |
@@ -44,7 +44,8 @@ range, plus optional scoping (see below).
 | Executive report | On-track/at-risk/off-track status, weekly trend, and a fixed suggestion per configured KPI (8 defaults covering deployment frequency, lead time, change failure rate, MTTR, bug effort share, feature delivery, high-priority bug share, and overdue ratio -- 4 more available opt-in), plus a budget/resource snapshot reusing Investment Allocation's own data. **Requires the Enterprise plan specifically** -- see "Getting access" below. **Not scoped by `repo`/`org`/`team` at all** -- see "Scoping" below. |
 
 Deployment frequency, lead time, change failure rate, and MTTR are the
-four canonical DORA metrics -- all four are available here.
+four canonical DORA metrics -- all four are available here. See
+[DORA Metrics](dora-metrics.md) for how deployments are counted.
 
 ## Scoping
 

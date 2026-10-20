@@ -40,6 +40,9 @@ configured" rather than a misleading 0%.
   scope the report instead of covering every repo you've imported
 - `--team-map /var/lib/eng-metrics-suite/teams.csv` to roll up commit
   activity by team instead of by individual author
+- `--tag-pattern '^v[0-9]'` to count only matching tags as deployments
+  for one run (normally set once as `ENG_API_TAG_PATTERN` in `.env`);
+  see [DORA Metrics](dora-metrics.md#choosing-which-tags-count)
 
 ## Team rollups
 

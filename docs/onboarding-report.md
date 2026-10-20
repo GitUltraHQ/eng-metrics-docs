@@ -105,7 +105,7 @@ eng-metrics-suite-pro's `.env`:
 | Setting | Used for |
 | --- | --- |
 | `ENG_API_TEAM_MAP_PATH` | A5 and the Configuration section |
-| `ENG_API_TAG_PATTERN` | A2, A4 and the deployment-based KPIs |
+| `ENG_API_TAG_PATTERN` | A2, A4 and the deployment-based KPIs; see [DORA Metrics](dora-metrics.md#choosing-which-tags-count) |
 | `ENG_API_AI_COAUTHORS_PATH` | AI co-author patterns, including AI reviewer accounts for A7 |
 | `BOT_PATTERNS_PATH` | Extra bot accounts for A7, one regex per line, added to the bundled list |
 | `KPI_TARGETS_PATH`, `FISCAL_YEAR_START_MONTH` | Section B and the baseline quarter |

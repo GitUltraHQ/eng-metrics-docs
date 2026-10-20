@@ -41,6 +41,7 @@ nav:
       - Running Workers: running-workers.md
   - Reports:
       - Generating Reports: generating-reports.md
+      - DORA Metrics: dora-metrics.md
       - Investment Allocation: investment-allocation.md
       - Planning Quality Signals: planning-quality-signals.md
       - Executive Report (Enterprise): executive-report.md

@@ -114,8 +114,9 @@ or `--quarter 2026-Q1` to pick the quarter.
     Deployment Frequency, Lead Time for Changes, Change Failure Rate and
     MTTR now count only tags matching `ENG_API_TAG_PATTERN` when it's
     set, the same as the API's deployment endpoints. Before, these four
-    KPIs counted every tag. Their existing baselines are marked as
-    outdated in `manage.py status`. If you're still onboarding, finalize
+    KPIs counted every tag (see
+    [DORA Metrics](dora-metrics.md#choosing-which-tags-count)). Their
+    existing baselines are marked as outdated in `manage.py status`. If you're still onboarding, finalize
     (below) covers it. Otherwise re-baseline them once:
 
     ```
