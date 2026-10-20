@@ -49,22 +49,34 @@ One bad response from a provider never stops a whole import:
   the outage outlasts the retries, it tries the repo again later. An
   outage never marks a repo `failed`.
 - **A repo or Jira project no longer exists** (or your token can't see
-  it). It's marked `failed` right away, with a message in its
-  `last_error` / `pr_last_error` saying what to check.
+  it). pr-processor and issue-processor mark it `failed` right away,
+  with a message in its `last_error` / `pr_last_error` saying what to
+  check.
 - **Your credentials are rejected**, or `JIRA_BASE_URL` isn't a Jira
   site. That worker pauses everything for that provider (other
   providers keep going) and logs which setting to fix, every 15
   minutes. Fix it in `.env` and run `docker compose up -d`; paused
   repos pick up where they left off. See [Logs](logs.md#paused-imports).
+- **Anything else fails 3 times in a row** (for example, git-processor's
+  clone of a repo that no longer exists keeps being refused). It's
+  marked `failed` with the last error. A successful import resets the count, so old failures
+  don't use up retries.
 
-To retry a repo marked `failed` once you've fixed the cause:
+A repo or project marked `failed` is never retried on its own. Once
+you've fixed the cause, retry it:
 
 ```
+docker compose run --rm --entrypoint python3 git-processor reingest_repo.py --failed --yes
 docker compose run --rm --entrypoint python3 pr-processor reingest_repo_prs.py --failed --yes
 docker compose run --rm --entrypoint python3 issue-processor reingest_jira_project.py <project-key> --yes
 ```
 
-Leave off `--yes` to see what would happen first.
+The first retries every repo whose git history failed to import, the
+second every repo whose pull requests did; both pick up where the last
+import left off. The third re-imports one Jira project from the start.
+Each retried repo or project gets its full 3 tries again. Leave off
+`--yes` to see what would happen first. A repo you shouldn't be tracking at all can be removed instead; see
+[Untracking a repo](discovering-repos.md#untracking-a-repo).
 
 ## Scaling workers
 
