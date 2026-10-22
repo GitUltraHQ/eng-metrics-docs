@@ -1,14 +1,15 @@
 # Telemetry
 
-`git-processor`, `pr-processor`, and `eng-reports` each send an
-anonymous usage heartbeat to gitultra.com at most once every 24 hours.
-It contains:
+Each GitUltra service that connects to your database sends an
+anonymous usage heartbeat to gitultra.com at most once every 24 hours:
+`git-processor`, `pr-processor`, `issue-processor` (if you've set up
+Jira), `eng-reports`, and `eng-api` (paid plans). It contains:
 
-- An installation identifier — a UUID generated once and shared across
-  all three services against your database. Not tied to your identity,
+- An installation identifier — a UUID generated once and shared by
+  every service using your database. Not tied to your identity,
   your organization's name, or anything else identifying.
-- Which component sent it (`git-processor`, `pr-processor`, or
-  `eng-reports`).
+- Which service sent it (`git-processor`, `pr-processor`,
+  `issue-processor`, `eng-reports`, or `eng-api`).
 - The software version (the git commit the running image was built
   from).
 - A broad, *bucketed* count of tracked repositories (e.g. `"6-25"`) —
