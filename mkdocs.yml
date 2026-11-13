@@ -1,8 +1,8 @@
 site_name: GitUltra Docs
 site_description: Self-hosted engineering metrics pipeline -- docs
 site_url: https://docs.gitultra.com/
-repo_url: https://github.com/GitUltraHQ/eng-metrics-suite
-repo_name: GitUltraHQ/eng-metrics-suite
+repo_url: https://github.com/GitUltraHQ/gitultra-metrics-suite
+repo_name: GitUltraHQ/gitultra-metrics-suite
 
 theme:
   name: material

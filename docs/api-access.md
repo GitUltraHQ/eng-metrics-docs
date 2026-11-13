@@ -247,7 +247,7 @@ immediately, for the very next request.
 
 This requires the target file to live somewhere the `eng-api`
 container can actually write to -- see
-[Getting Started](getting-started.md) (or `eng-metrics-suite-pro`'s
+[Getting Started](getting-started.md) (or `gitultra-metrics-suite`'s
 `docker-compose.yml`) for the writable-subdirectory mount these two
 endpoints need. Hand-editing either CSV directly on disk still works
 exactly as before and still requires a restart to take effect -- these
@@ -270,7 +270,7 @@ python3 -c "import secrets; print(secrets.token_hex(32))"
 ```
 
 Set the result as `ENG_API_KEY` in your `.env` (if you're running the
-`eng-metrics-suite-pro` compose bundle) or as the `API_KEY` environment
+`gitultra-metrics-suite` compose bundle) or as the `API_KEY` environment
 variable directly (if running the container standalone) -- then send it
 back as `Authorization: Bearer <that value>` on every request. Treat it
 like any other credential: don't commit it, and rotate it (just

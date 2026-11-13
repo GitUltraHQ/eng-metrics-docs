@@ -1,4 +1,4 @@
-# eng-metrics-suite
+# gitultra-metrics-suite
 
 A self-hosted engineering metrics pipeline: import commit and PR/MR stats
 from your GitHub, GitLab, Bitbucket, or Azure DevOps org into Postgres,
@@ -8,15 +8,15 @@ more capabilities: change failure rate/MTTR (the other two DORA
 metrics) and an investment allocation report — see
 [Jira Integration](jira-integration.md).
 
-The [eng-metrics-suite](https://github.com/GitUltraHQ/eng-metrics-suite) repo
+The [gitultra-metrics-suite](https://github.com/GitUltraHQ/gitultra-metrics-suite) repo
 is just the `docker-compose.yml` needed to run it — the application
-images (`git-processor`, `pr-processor`, `eng-reports`, and optionally
-`issue-processor`) are published pre-built at
+images are published pre-built at
 [ghcr.io/gitultrahq](https://github.com/GitUltraHQ?tab=packages).
-Free to use; see [LICENSE](https://github.com/GitUltraHQ/eng-metrics-suite/blob/master/LICENSE).
+Free to run; a license key unlocks the Team and Enterprise plans in the
+same install. See [LICENSE](https://github.com/GitUltraHQ/gitultra-metrics-suite/blob/master/LICENSE).
 
 !!! tip "Want API access, AI agent access, or the Executive Report?"
-    Everything on this site works with the free, self-hosted tier. For
+    Everything on this site works with the free plan. For
     [API Access](api-access.md) and [AI Agent Access](mcp-access.md)
     (query your metrics from Claude Desktop or Claude Code) on the
     **Team**/**Enterprise** plans, or the

@@ -1,33 +1,35 @@
 # Getting Started
 
 !!! tip "Using Claude Code?"
-    `eng-metrics-suite` (and `eng-metrics-suite-pro`) ship a
+    `gitultra-metrics-suite` ships a
     `gitultra-setup` skill that automates everything on this page
     through [Generating Reports](generating-reports.md) -- clone the
     repo, open it in Claude Code, and ask it to set up GitUltra. It
-    detects your tier, asks only for what it can't infer (org name,
+    asks only for what it can't infer (org name,
     provider tokens, which optional integrations to enable), and
     verifies the install with a real generated report before calling
     it done. The steps below are what it's automating, and remain the
     reference if you'd rather do it by hand or the skill doesn't
     behave as expected.
 
-Clone [eng-metrics-suite](https://github.com/GitUltraHQ/eng-metrics-suite),
-then:
+Clone [gitultra-metrics-suite](https://github.com/GitUltraHQ/gitultra-metrics-suite),
+then follow the steps below. The same install runs every plan.
 
-## Team / Enterprise tiers
+## Free and paid plans
 
-Clone [eng-metrics-suite-pro](https://github.com/GitUltraHQ/eng-metrics-suite-pro)
-instead of `eng-metrics-suite` if you're on the Team or Enterprise
-tier -- same setup, plus the paid add-ons (`eng-api`, `gitultra-mcp`)
-already wired into the compose file. The repo itself is public and
-free to clone, but running the paid add-ons needs a signed
-`GITULTRA_LICENSE_KEY` -- email **support@gitultra.com** to get one.
-See that repo's [QUICKSTART.md](https://github.com/GitUltraHQ/eng-metrics-suite-pro/blob/master/QUICKSTART.md)
+With no license key, the stack runs the free plan. The paid services
+(`eng-api`, `gitultra-mcp`) are already in the compose file; without a
+key they each log one "no license key" line and idle, so there's
+nothing to configure or remove.
+
+On the Team or Enterprise plan, fill in the "Paid plans" section of
+`.env` (your `GITULTRA_LICENSE_KEY`, from **support@gitultra.com**, and
+an `ENG_API_KEY` you choose) and run `docker compose up -d`. Your data
+stays as it is. See the repo's [QUICKSTART.md](https://github.com/GitUltraHQ/gitultra-metrics-suite/blob/master/QUICKSTART.md)
 once you have a key.
 
-The steps below are the same for both -- continue here first regardless
-of tier.
+Coming from the older `eng-metrics-suite` repo? See
+[Updating](updating.md#coming-from-eng-metrics-suite).
 
 ```
 cp .env.example .env
@@ -63,7 +65,7 @@ isn't UID 1000 (check with `id -u`), add `--user "$(id -u):$(id -g)"` to
 the `docker compose run` commands in [Generating
 Reports](generating-reports.md) instead.
 
-**On `eng-metrics-suite-pro` (Team/Enterprise)**: if you plan to use
+**On the Team/Enterprise plans**: if you plan to use
 the admin-only live CSV-upload endpoints for `team_map.csv`/
 `org_roles.csv` (see [API Access](api-access.md#updating-the-roster-without-a-restart)),
 also create a writable subdirectory alongside the read-only one above:

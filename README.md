@@ -1,6 +1,6 @@
 # eng-metrics-docs
 
-Source for the [eng-metrics-suite](https://github.com/GitUltraHQ/eng-metrics-suite)
+Source for the [gitultra-metrics-suite](https://github.com/GitUltraHQ/gitultra-metrics-suite)
 documentation site, built with [MkDocs](https://www.mkdocs.org/) +
 [Material](https://squidfunk.github.io/mkdocs-material/).
 

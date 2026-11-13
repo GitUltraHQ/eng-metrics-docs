@@ -20,7 +20,7 @@ turning this on is just adding one more container.
 
 ## Setup
 
-Using the `eng-metrics-suite-pro` compose bundle, `gitultra-mcp` is
+Using the `gitultra-metrics-suite` compose bundle, `gitultra-mcp` is
 already defined as a service -- set these in `.env` (mostly reusing
 what `eng-api` already needs):
 

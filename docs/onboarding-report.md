@@ -100,7 +100,7 @@ didn't happen.
 ## Settings
 
 The report reads the same settings as the rest of the suite. In
-eng-metrics-suite-pro's `.env`:
+`gitultra-metrics-suite`'s `.env`:
 
 | Setting | Used for |
 | --- | --- |

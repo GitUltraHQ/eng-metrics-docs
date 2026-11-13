@@ -5,7 +5,7 @@ cron job or systemd timer to get a report on a recurring schedule (e.g.
 weekly, for a Monday-morning exec digest):
 
 ```
-0 8 * * 1 cd /path/to/eng-metrics-suite && docker compose run --rm eng-reports report.py --period last-week --output /out/weekly-report.pdf
+0 8 * * 1 cd /path/to/gitultra-metrics-suite && docker compose run --rm eng-reports report.py --period last-week --output /out/weekly-report.pdf
 ```
 
 Adjust the cron expression, `--period`, and output filename to taste —
@@ -22,7 +22,7 @@ oversees and email it to them directly, on whatever schedule you wire
 it into:
 
 ```
-0 8 * * 1 cd /path/to/eng-metrics-suite && docker compose run --rm eng-reports email_team_reports.py --team-map /var/lib/eng-metrics-suite/teams.csv
+0 8 * * 1 cd /path/to/gitultra-metrics-suite && docker compose run --rm eng-reports email_team_reports.py --team-map /var/lib/eng-metrics-suite/teams.csv
 ```
 
 Each `role=manager,receives_report=true` row gets its own email, one
