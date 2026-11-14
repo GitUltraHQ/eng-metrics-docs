@@ -40,6 +40,17 @@ Neither of these produces an error — they just quietly under-report or
 misattribute real activity, which is what makes this worth checking for
 rather than assuming it isn't happening.
 
+## Finding split identities
+
+For GitHub and Bitbucket Cloud, GitUltra can spot one account committing
+under several emails, and both the [Onboarding Report](onboarding-report.md)
+(check A1) and the free [Pipeline Health Report](pipeline-health-report.md)
+list them with the exact lines to add to your identity file. New aliases
+keep turning up after onboarding (a new laptop, a personal email on one
+commit), so it's worth running the Pipeline Health Report now and then.
+GitLab and Azure DevOps accounts can't be checked this way; look for one
+person under two emails in the per-author tables of the main report.
+
 ## Fixing it going forward: `.mailmap`
 
 `.mailmap` is git's own native mechanism for this — a file at the root

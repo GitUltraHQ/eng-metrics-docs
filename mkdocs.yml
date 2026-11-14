@@ -47,6 +47,7 @@ nav:
       - Executive Report (Enterprise): executive-report.md
       - QBR Report (Team): qbr-report.md
       - Onboarding Report: onboarding-report.md
+      - Pipeline Health Report: pipeline-health-report.md
       - Scheduling Reports: scheduling.md
   - Team & Enterprise:
       - API Access: api-access.md

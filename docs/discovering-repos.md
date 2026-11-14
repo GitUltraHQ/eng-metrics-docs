@@ -143,6 +143,11 @@ before you upgraded to a version with this fix.
 
 ## Untracking a repo
 
+If the repo is only archived or moved and its history should still
+count, don't remove it: [mark it inactive](pipeline-health-report.md#marking-repositories-inactive)
+instead. That stops the Pipeline Health Report from flagging it and
+deletes nothing.
+
 Decommissioned a repo, added one by mistake, or a customer asked you to
 stop tracking it? `remove_repo.py` permanently deletes it and everything
 that depends on it (commits, tags, PR data, any linked Jira project and

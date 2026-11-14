@@ -39,6 +39,10 @@ falls back to a fresh clone.
 
 ## When something fails
 
+To see everything that's failed, been paused or gone quiet, with the
+command that fixes each one, run the free
+[Pipeline Health Report](pipeline-health-report.md).
+
 One bad response from a provider never stops a whole import:
 
 - **One PR can't be fetched** (for example, Bitbucket Cloud can't list
@@ -75,8 +79,10 @@ The first retries every repo whose git history failed to import, the
 second every repo whose pull requests did; both pick up where the last
 import left off. The third re-imports one Jira project from the start.
 Each retried repo or project gets its full 3 tries again. Leave off
-`--yes` to see what would happen first. A repo you shouldn't be tracking at all can be removed instead; see
-[Untracking a repo](discovering-repos.md#untracking-a-repo).
+`--yes` to see what would happen first. A repo that's gone or archived on purpose can be
+[marked inactive](pipeline-health-report.md#marking-repositories-inactive) instead, which keeps its
+history; one you shouldn't be tracking at all can be removed (see
+[Untracking a repo](discovering-repos.md#untracking-a-repo)).
 
 ## Scaling workers
 
