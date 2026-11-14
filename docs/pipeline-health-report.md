@@ -19,6 +19,9 @@ up as soon as the data changes: fix something, run it again, and check
 that it's gone. To get it on a schedule, run the same command from cron
 (see [Scheduling Reports](scheduling.md)).
 
+On Team and Enterprise plans, an Admin without access to the server can
+also [ask an AI agent for it](#getting-it-by-email-team-enterprise).
+
 ## What's in it
 
 **Last successful sync.** For git history, pull requests and both Jira
@@ -44,6 +47,44 @@ it matters and what to do, with the exact command.
 
 Each repository shows up in one place only: one that's probably moved
 isn't also listed under failed imports or no recent activity.
+
+## Getting it by email (Team / Enterprise)
+
+The report is most useful to the person who looks after the install,
+and that person may not have shell access to the server. On Team and
+Enterprise plans, an Admin can ask their AI agent for it, and the same
+PDF arrives in their inbox:
+
+> Send me the pipeline health report.
+
+The agent uses the `email_admin_pipeline_health_report` tool (see
+[AI Agent Access](mcp-access.md#org-role-tools-require-email-verification)).
+What you need:
+
+- **The Admin role.** Your email has a row with role `admin` in
+  `org_roles.csv` (see [Generating Reports](generating-reports.md#org_rolescsv-org-level-roles-admin-executive-director)).
+  Executives and Directors are refused. You verify your email once per
+  conversation with a 6-digit code, the same as the other Admin tools.
+- **SMTP settings** (`SMTP_HOST` and the rest) in `.env`, so `eng-api`
+  can send email.
+
+The report only ever goes to your own verified address, never to an
+address in the request. It's the same report the command above writes,
+from the same checks and with the same fix commands.
+
+The agent gets back only each section's name and how many items it
+found, never the items themselves. So it can tell you "all clear" or
+"3 failed imports, details in your email", but not which repositories
+they are. That keeps the developer email addresses in the "Developers
+who may need merging" section in your inbox and out of the chat. If a
+section couldn't be checked, the agent says so instead of calling it
+clear.
+
+The same thing is available directly from the API as
+`POST /v1/admin/email-pipeline-health-report` (see
+[API Access](api-access.md#org-level-roles-admin-executive-director)),
+with an optional `max_rows` (default 50) for how many rows each section
+lists. Every section still says how many it left off.
 
 ## When a repository returns 404
 

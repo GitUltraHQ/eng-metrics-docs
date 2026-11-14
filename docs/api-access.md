@@ -221,6 +221,7 @@ different shape of access:
 | Admin contributor summary | Admin only | Same as Manager contributor summary, for any team, not just ones you manage. |
 | Admin period comparison | Admin only | Same as Manager period comparison, for any team. |
 | Admin email-team-report | Admin only | Same as Manager email-team-report, for any team -- still only ever emailed to *your own* on-file address. |
+| Admin email-pipeline-health-report | Admin only | `POST /v1/admin/email-pipeline-health-report`: emails the [Pipeline Health Report](pipeline-health-report.md#getting-it-by-email-team-enterprise) PDF to *your own* on-file address. Returns `status`, `attention` (sections with something to fix), `unchecked` (sections whose check failed) and `sections` (each one's `title`, `count` and `checked`), never the rows. Optional `max_rows` query parameter, default 50. |
 
 `GET /v1/executive-report` (see above) additionally requires an Admin
 or Executive role once `ORG_ROLES_PATH` is configured -- on an install

@@ -148,6 +148,7 @@ for the full permission matrix.
 | `get_admin_contributor_summary` | Admin | Per-contributor activity for any team, not just ones you manage. |
 | `get_admin_period_comparison` | Admin | Current vs. preceding period for any team. |
 | `email_admin_team_report` | Admin | Emails a fresh PDF for any team to your own on-file address. |
+| `email_admin_pipeline_health_report` | Admin | Emails the [Pipeline Health Report](pipeline-health-report.md#getting-it-by-email-team-enterprise) to your own on-file address. Replies with each section's name and count only; the details are in the PDF. Optional `max_rows` (default 50). |
 | `upload_team_map_csv` | Admin | Replaces `team_map.csv` entirely and reloads it live -- no restart. |
 | `upload_org_roles_csv` | Admin | Replaces `org_roles.csv` entirely and reloads it live -- always rejected if it would leave zero `admin` rows. |
 
