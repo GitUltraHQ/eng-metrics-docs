@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&display=swap");
+
+/* GitUltra brand theme -- palette v0.2, same values as gitultra-site's
+   static/css/gitultra-tokens.css. Interactive #4259ED is the link/accent
+   color on light; Ultra #6D82FF is used for text only on dark (white-on-
+   Ultra and Ultra-on-white both fail contrast). */
+:root {
+  --gu-interactive: #4259ED;
+  --gu-ultra: #6D82FF;
+  --gu-mist: #EAF2FF;
+  --gu-ink: #0E1116;
+}
+
+/* Header and tabs: Ink in both color schemes, matching the dark
+   sections of gitultra.com. */
+[data-md-color-scheme="default"],
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: var(--gu-ink);
+  --md-primary-fg-color--light: #2A2F38;
+  --md-primary-fg-color--dark: #000000;
+  --md-footer-bg-color: var(--gu-ink);
+  --md-footer-bg-color--dark: #000000;
+}
+
+[data-md-color-scheme="default"] {
+  --md-accent-fg-color: var(--gu-interactive);
+  --md-typeset-a-color: var(--gu-interactive);
+}
+
+[data-md-color-scheme="slate"] {
+  --md-accent-fg-color: var(--gu-ultra);
+  --md-typeset-a-color: var(--gu-ultra);
+}
+
+/* Wordmark and headings in Archivo, like the logo lockup. */
+.md-header__topic:first-child,
+.md-typeset h1,
+.md-typeset h2 {
+  font-family: "Archivo", var(--md-text-font-family), sans-serif;
+}
+
+.md-header__topic:first-child {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.md-typeset h1 {
+  color: var(--md-default-fg-color);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+}
+
+.md-header__button.md-logo img {
+  height: 1.6rem;
+}
+
+/* Indent pages under their sidebar section so section titles don't read
+   as pages. Desktop only -- below 76.25em Material's nav is a drill-down
+   drawer with no inline sections. */
+@media screen and (min-width: 76.25em) {
+  .md-nav--primary .md-nav__item--section > .md-nav {
+    margin-left: 0.8rem;
+  }
+}
