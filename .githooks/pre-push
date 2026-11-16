@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Blocks a direct `git push` to master -- this repo follows the
+# feature-branch/PR process (see gitultra-wiki/Specs/Feature-Branch-Rollout.md).
+# Land changes via a PR instead (see .claude/skills/feature-branch-workflow/SKILL.md).
+#
+# A *local* safeguard: GitHub branch protection isn't available on this
+# org's plan for private repos. Activate once per clone with:
+#     git config core.hooksPath .githooks
+# Never bypass it with `git push --no-verify`; see CLAUDE.md.
+
+set -euo pipefail
+
+protected_branches="master"
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+    for branch in $protected_branches; do
+        if [ "$remote_ref" = "refs/heads/$branch" ]; then
+            echo "error: direct push to '$branch' is blocked in this repo." >&2
+            echo "       Open a pull request instead -- see .claude/skills/feature-branch-workflow/SKILL.md" >&2
+            echo "       (gitultra-wiki/Specs/Feature-Branch-Rollout.md has the full rationale)." >&2
+            exit 1
+        fi
+    done
+done
+
+exit 0
