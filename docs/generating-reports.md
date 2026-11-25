@@ -61,6 +61,13 @@ carol@example.com,Product
 Anyone not listed shows up under "Unmapped" in the report rather than
 being silently dropped.
 
+Someone on more than one team gets one row per team, and counts on
+every team they're on: in each of those teams' reports and "By Team"
+rows. Organization totals count them once, so the "By Team" rows can add
+up to more than the organization total; that's expected. If their rows
+disagree, the more private choice wins: `reportable` set to `false` on
+any row (see below) pseudonymizes them everywhere.
+
 If the same person shows up as multiple rows in the author table, or
 lands in "Unmapped" despite being in your team-map CSV, see
 [Author Identity Consistency](author-identity.md).
